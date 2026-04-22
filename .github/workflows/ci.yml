@@ -1,0 +1,50 @@
+name: Bug Repro – Vite 8 + pnpm + Windows SCSS exports
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: vite build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      # Don't cancel other jobs when Windows fails – we want to see all results
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build (vite-app)
+        # On Windows this step is expected to fail with:
+        #   [sass] Error: "./styles\_mixins" is not exported under the conditions
+        #   ["sass", "style", "development", "import"] from package @vite-sass-bug/example
+        #
+        # On Linux and macOS the build succeeds because the sub-path uses a
+        # forward slash (./styles/_mixins) which matches the ./styles/* pattern.
+        run: pnpm --filter vite-app run build
