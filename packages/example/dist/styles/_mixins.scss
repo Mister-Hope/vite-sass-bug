@@ -1,0 +1,30 @@
+// _mixins.scss  – intentionally underscore-prefixed (Sass partial convention)
+//
+// When a consumer writes:
+//   @use '@vite-sass-bug/example/styles/mixins';
+//
+// Sass resolves the specifier to this file (_mixins.scss) and asks the
+// bundler (Vite) to check whether the resolved path is permitted by the
+// package's `exports` field.
+//
+// On Linux/macOS  → sub-path is  ./styles/_mixins  → matched by ./styles/*  ✔
+// On Windows      → sub-path becomes ./styles\_mixins (backslash)
+//                   which does NOT match ./styles/*               ✘  ← BUG
+
+$primary-color: #42b883;
+$secondary-color: #35495e;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-base {
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: $primary-color;
+  color: #fff;
+}

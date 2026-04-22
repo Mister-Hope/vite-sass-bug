@@ -1,3 +1,4 @@
 node_modules/
-dist/
+# Ignore build output in the vite-app only
+packages/vite-app/dist/
 .vite/
