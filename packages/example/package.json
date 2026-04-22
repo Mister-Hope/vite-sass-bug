@@ -1,0 +1,15 @@
+{
+  "name": "@vite-sass-bug/example",
+  "version": "1.0.0",
+  "description": "Example package that exports underscore-prefixed SCSS via the `sass` exports condition",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    },
+    "./styles/*.scss": "./dist/styles/*.scss",
+    "./styles/*": {
+      "sass": "./dist/styles/*.scss"
+    },
+    "./package.json": "./package.json"
+  }
+}

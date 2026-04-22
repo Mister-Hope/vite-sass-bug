@@ -1,0 +1,44 @@
+// This @use triggers the bug on Windows.
+//
+// Sass resolves 'mixins' → '_mixins.scss' (underscore partial convention).
+// Vite then validates the resolved path against the package's `exports` field.
+//
+//   exports: { "./styles/*": { "sass": "./dist/styles/*.scss" } }
+//
+// On Linux/macOS  the sub-path passed to exports resolution is:
+//   ./styles/_mixins  ← matches  ./styles/*   ✔
+//
+// On Windows  Vite constructs the sub-path with a backslash:
+//   ./styles\_mixins  ← does NOT match  ./styles/*   ✘
+//
+// Error on Windows:
+//   [sass] Error: "./styles\_mixins" is not exported under the conditions
+//   ["sass", "style", "development", "import"] from package @vite-sass-bug/example
+@use '@vite-sass-bug/example/styles/mixins' as mixins;
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #f5f5f5;
+}
+
+#app {
+  @include mixins.flex-center;
+  flex-direction: column;
+  min-height: 100vh;
+  color: mixins.$secondary-color;
+}
+
+h1 {
+  color: mixins.$primary-color;
+}
+
+.description {
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.btn {
+  @include mixins.button-base;
+}

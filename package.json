@@ -1,0 +1,13 @@
+{
+  "name": "vite-sass-bug",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bug repro: Vite 8 + pnpm + Windows path resolution for SCSS @use with package exports `sass` condition",
+  "scripts": {
+    "build": "pnpm --filter vite-app run build"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
+  }
+}

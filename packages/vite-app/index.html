@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite Sass Bug Repro</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Vite + Sass Bug Repro</h1>
+      <p class="description">
+        This app imports SCSS from <code>@vite-sass-bug/example</code> using the
+        <code>sass</code> exports condition. On Windows, Vite fails to resolve the
+        underscore-prefixed partial (<code>_mixins.scss</code>) because the
+        package-exports lookup path uses a backslash instead of a forward slash.
+      </p>
+      <button class="btn">Button styled via mixin</button>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
